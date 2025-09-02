@@ -1,0 +1,17 @@
+name: Deploy with Dynamic IP
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Get dynamic public IP
+        id: runner_ip
+        run: echo "ip=$(curl -s https://api.ipify.org)" >> $GITHUB_OUTPUT
+      - name: Use IP
+        run: |
+          echo "${{ steps.runner_ip.outputs.ip }}"
